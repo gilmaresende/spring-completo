@@ -7,13 +7,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.condelar.converters.NumberConveter;
 import com.condelar.exception.UnsupportedMathOperationException;
+
+import math.SimpleMath;
 
 @RestController
 public class GreetingController {
 
 	private static final String template = "Hello, %s";
 	private static final AtomicLong counter = new AtomicLong();
+
+	private SimpleMath math = new SimpleMath();
 
 	@RequestMapping("/greeting")
 	public Greeting greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
@@ -24,28 +29,69 @@ public class GreetingController {
 	public Double sum(@PathVariable(value = "numberOne") String numberOne,
 			@PathVariable(value = "numberTwo") String numberTwo) throws Exception {
 
-		if (!isNumeric(numberOne) || !isNumeric(numberTwo))
+		if (!NumberConveter.isNumeric(numberOne) || !NumberConveter.isNumeric(numberTwo))
 			throw new UnsupportedMathOperationException("please set a numeric value!");
 
-		Double result = convertToDouble(numberOne) + convertToDouble(numberTwo);
-		System.out.println(result);
+		Double result = math.sum(NumberConveter.convertToDouble(numberOne), NumberConveter.convertToDouble(numberTwo));
 		return result;
 	}
 
-	private boolean isNumeric(String numberOne) {
-		if (numberOne == null)
-			return false;
-		String number = numberOne.replaceAll(",", ".");
-		return number.matches("[+-]?[0-9]*\\.?[0-9]+");
+	@RequestMapping("/subtraction/{numberOne}/{numberTwo}")
+	public Double subtraction(@PathVariable(value = "numberOne") String numberOne,
+			@PathVariable(value = "numberTwo") String numberTwo) throws Exception {
 
+		if (!NumberConveter.isNumeric(numberOne) || !NumberConveter.isNumeric(numberTwo))
+			throw new UnsupportedMathOperationException("please set a numeric value!");
+
+		Double result = math.subtraction(NumberConveter.convertToDouble(numberOne),
+				NumberConveter.convertToDouble(numberTwo));
+		return result;
 	}
 
-	private Double convertToDouble(String strNumber) {
-		if (strNumber == null)
-			return 0D;
-		String number = strNumber.replaceAll(",", ".");
-		if (isNumeric(number))
-			return Double.parseDouble(number);
-		return 0D;
+	@RequestMapping("/multiplication/{numberOne}/{numberTwo}")
+	public Double multiplication(@PathVariable(value = "numberOne") String numberOne,
+			@PathVariable(value = "numberTwo") String numberTwo) throws Exception {
+
+		if (!NumberConveter.isNumeric(numberOne) || !NumberConveter.isNumeric(numberTwo))
+			throw new UnsupportedMathOperationException("please set a numeric value!");
+
+		Double result = math.multiplication(NumberConveter.convertToDouble(numberOne),
+				NumberConveter.convertToDouble(numberTwo));
+		return result;
 	}
+
+	@RequestMapping("/division/{numberOne}/{numberTwo}")
+	public Double division(@PathVariable(value = "numberOne") String numberOne,
+			@PathVariable(value = "numberTwo") String numberTwo) throws Exception {
+
+		if (!NumberConveter.isNumeric(numberOne) || !NumberConveter.isNumeric(numberTwo))
+			throw new UnsupportedMathOperationException("please set a numeric value!");
+
+		Double result = math.division(NumberConveter.convertToDouble(numberOne),
+				NumberConveter.convertToDouble(numberTwo));
+		return result;
+	}
+
+	@RequestMapping("/media/{numberOne}/{numberTwo}")
+	public Double media(@PathVariable(value = "numberOne") String numberOne,
+			@PathVariable(value = "numberTwo") String numberTwo) throws Exception {
+
+		if (!NumberConveter.isNumeric(numberOne) || !NumberConveter.isNumeric(numberTwo))
+			throw new UnsupportedMathOperationException("please set a numeric value!");
+
+		Double result = math.media(NumberConveter.convertToDouble(numberOne),
+				NumberConveter.convertToDouble(numberTwo));
+		return result;
+	}
+
+	@RequestMapping("/squareRoot/{numberOne}")
+	public Double squareRoot(@PathVariable(value = "numberOne") String numberOne) throws Exception {
+
+		if (!NumberConveter.isNumeric(numberOne))
+			throw new UnsupportedMathOperationException("please set a numeric value!");
+
+		Double result = math.squareRoot(NumberConveter.convertToDouble(numberOne));
+		return Math.sqrt(result);
+	}
+
 }
