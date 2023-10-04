@@ -1,4 +1,4 @@
-package math;
+package com.condelar.math;
 
 public class SimpleMath {
 

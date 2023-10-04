@@ -1,4 +1,4 @@
-package com.condelar;
+package com.condelar.controllers;
 
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.condelar.converters.NumberConveter;
 import com.condelar.exception.UnsupportedMathOperationException;
-
-import math.SimpleMath;
+import com.condelar.math.SimpleMath;
+import com.condelar.model.Greeting;
 
 @RestController
 public class GreetingController {

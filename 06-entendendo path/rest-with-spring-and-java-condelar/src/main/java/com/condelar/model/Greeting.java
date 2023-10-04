@@ -1,4 +1,4 @@
-package com.condelar;
+package com.condelar.model;
 
 public class Greeting {
 
